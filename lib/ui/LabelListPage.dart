@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/ui/utils/TextFieldDialog.dart';
 
-class LabelPage extends StatefulWidget {
-  const LabelPage({Key? key}) : super(key: key);
+class LabelListPage extends StatefulWidget {
+  const LabelListPage({Key? key}) : super(key: key);
 
   @override
-  _LabelPageState createState() => _LabelPageState();
+  _LabelListPageState createState() => _LabelListPageState();
 }
 
-class _LabelPageState extends State<LabelPage> {
+class _LabelListPageState extends State<LabelListPage> {
   late LabelService _labelService;
 
   @override
@@ -26,7 +27,22 @@ class _LabelPageState extends State<LabelPage> {
         title: const Text('Edit labels'),
         actions: [
           IconButton(
-              onPressed: onPressed,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => TextFieldDialog(
+                        title: 'Add new label',
+                        inputHintText: 'label',
+                        cancelFunction: () => Navigator.pop(context),
+                        confirmFunction: (String newLabel) {
+                          this._labelService.addLabel(newLabel);
+                          Navigator.pop(context);
+                          setState(() {
+
+                          });
+                        })
+                );
+              },
               icon: const Icon(
                 Icons.add,
                 color: Colors.white,
@@ -34,89 +50,52 @@ class _LabelPageState extends State<LabelPage> {
           )
         ],
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: this._labelService.labelList.length,
-          itemBuilder: (context, index) {
-            String label = this._labelService.labelList[index];
-            return ListTile(
-              leading: Icon(Icons.label, color: this._labelService.getColorsForLabelIndex(index)),
-              title: Text(this._labelService.labelList[index]),
-              trailing: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Delete $label label'),
-                            content: Text('Do you want to remove the $label label ?'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'cancel'
-                                  )
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    this._labelService.removeLabel(label);
-                                    Navigator.pop(context);
-                                    setState(() {
+      body: ListView.builder(
+        itemCount: this._labelService.labelList.length,
+        itemBuilder: (context, index) {
+          String label = this._labelService.labelList[index];
+          return ListTile(
+            leading: Icon(Icons.label, color: this._labelService.getColorsForLabelIndex(index)),
+            title: Text(this._labelService.labelList[index]),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.red,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Delete $label label'),
+                    content: Text('Do you want to remove the $label label ?'),
 
-                                    });
-                                  },
-                                  child: Text(
-                                    'confirm'
-                                  )
-                              )
-                            ],
-                          ),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Delete $label label'),
-                          content: Text('Do you want to remove the $label label ?'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                    'cancel'
-                                )
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  this._labelService.removeLabel(label);
-                                  Navigator.pop(context);
-                                  setState(() {
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                              'cancel'
+                          )
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            this._labelService.removeLabel(label);
+                            Navigator.pop(context);
+                            setState(() {
 
-                                  });
-                                },
-                                child: Text(
-                                    'confirm'
-                                )
-                            )
-                          ],
-                        ),
-                      );
-                    },
+                            });
+                          },
+                          child: Text(
+                              'confirm'
+                          )
+                      )
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+
+          );
+        },
       ),
     );
   }

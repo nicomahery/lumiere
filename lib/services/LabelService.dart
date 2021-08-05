@@ -34,24 +34,36 @@ class LabelService{
   List<String> get labelList => this._labelList;
 
   LabelService() {
-    this._getLabelListFromPreferences();
-    this._getAppDirectoryLocation();
-    this._labelList.forEach((label) => this._createDirectoryIfNotExist(label));
+    this._initValues();
+  }
+
+  /// Initialises the label list this.[_labelList] from shared preferences,
+  /// initialises the path of the app data directory this.[_appDirectoryLocation]
+  /// and create directories
+  void _initValues() async {
+    await this._getAppDirectoryLocation();
+    await this._getLabelListFromPreferences();
   }
 
   /// Initialises the label list this.[_labelList] from shared preferences
-  void _getLabelListFromPreferences() async {
+  Future<void> _getLabelListFromPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this._labelList = preferences.getStringList(LABEL_LIST_PREFERENCE_KEY) ?? [];
+    if (this._labelList.isNotEmpty) {
+      for(String label in this._labelList) {
+        this._createDirectoryIfNotExist(label);
+      }
+    }
   }
 
   /// Initialises the path of the app data directory this.[_appDirectoryLocation]
-  void _getAppDirectoryLocation() async {
-    this._appDirectoryLocation = (await getApplicationDocumentsDirectory()).path;
+  Future<void> _getAppDirectoryLocation() async {
+    Directory dir = await getApplicationDocumentsDirectory();
+    this._appDirectoryLocation = dir.path;
   }
 
   /// Saves every label in this.[_labelList] into shared preferences (persistence)
-  void _saveLabelListToPreferences() async {
+  Future<void> _saveLabelListToPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setStringList(LABEL_LIST_PREFERENCE_KEY, this._labelList);
   }

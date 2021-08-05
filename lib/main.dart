@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lumiere/services/ApiService.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/services/ParametersService.dart';
 import 'package:lumiere/ui/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   GetIt.instance.registerSingleton(LabelService());
+  GetIt.instance.registerSingleton(ParametersService());
+  GetIt.instance.registerSingleton(ApiService());
   runApp(MyApp());
 }
 
@@ -19,6 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

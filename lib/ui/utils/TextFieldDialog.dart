@@ -5,17 +5,19 @@ class TextFieldDialog extends StatelessWidget {
   String? _textFieldValue;
   final Function(String) confirmFunction;
   final Function cancelFunction;
-  TextFieldDialog({required this.confirmFunction, required this.cancelFunction, Key? key}) : super(key: key);
+  final String title;
+  final String inputHintText;
+  TextFieldDialog({required this.title, required this.inputHintText, required this.confirmFunction, required this.cancelFunction, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('TextField in Dialog'),
+      title: Text(this.title),
       content: TextField(
         onChanged: (value) {
           this._textFieldValue = value;
         },
-        decoration: InputDecoration(hintText: "Text Field in Dialog"),
+        decoration: InputDecoration(hintText: this.inputHintText),
       ),
       actions: <Widget>[
         TextButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/LabelService.dart';
 import 'package:lumiere/ui/utils/TextFieldDialog.dart';
@@ -31,7 +32,7 @@ class _LabelListPageState extends State<LabelListPage> {
                 showDialog(
                     context: context,
                     builder: (context) => TextFieldDialog(
-                        title: 'Add new label',
+                        title: Text('Add new label'),
                         inputHintText: 'label',
                         cancelFunction: () => Navigator.pop(context),
                         confirmFunction: (String newLabel) {
@@ -40,6 +41,15 @@ class _LabelListPageState extends State<LabelListPage> {
                           setState(() {
 
                           });
+                          Fluttertoast.showToast(
+                              msg: "$newLabel label added",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.SNACKBAR,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.blueGrey,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
                         })
                 );
               },
@@ -73,7 +83,7 @@ class _LabelListPageState extends State<LabelListPage> {
                             Navigator.pop(context);
                           },
                           child: Text(
-                              'cancel'
+                              'Cancel'
                           )
                       ),
                       TextButton(
@@ -83,9 +93,18 @@ class _LabelListPageState extends State<LabelListPage> {
                             setState(() {
 
                             });
+                            Fluttertoast.showToast(
+                                msg: "$label label removed",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.SNACKBAR,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.blueGrey,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
                           },
                           child: Text(
-                              'confirm'
+                              'Confirm'
                           )
                       )
                     ],

@@ -34,13 +34,19 @@ class ApiService {
 
   Future<bool> testConnectionToApi() async {
     String payload = DateTime.now().toIso8601String();
-    Response response = await this._dio.post(
-        'https://${this._parametersService.serverUrl!}/$TEST_CONNECTION_URI',
-        data: FormData.fromMap({
-          'access-key': this._parametersService.accessKey ?? '',
-          'payload': payload
-        })
-    );
-    return response.statusCode == 200 && response.data == payload;
+    try {
+      Response response = await this._dio.post(
+          'https://${this._parametersService.serverUrl!}/$TEST_CONNECTION_URI',
+          data: FormData.fromMap({
+            'access-key': this._parametersService.accessKey ?? '',
+            'payload': payload
+          })
+      );
+      return response.statusCode == 200 && response.data == payload;
+    }
+    catch (exception) {
+      print(exception);
+      return false;
+    }
   }
 }

@@ -29,6 +29,8 @@ dependencies:
   path: ^1.8.0
   dio: ^4.0.0
   camera: ^0.8.1+7
+  fluttertoast: ^8.0.8
+  settings_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:

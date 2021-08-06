@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lumiere/ui/CameraPage.dart';
+import 'package:lumiere/ui/SettingPage.dart';
 
 import 'LabelListPage.dart';
 
@@ -42,19 +43,21 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Spacer(flex: 2),
-                        Icon(
-                          Icons.label,
-                          color: Colors.white,
-                          size: width * 0.09,
+                        Padding(
+                          padding: EdgeInsets.only(right: width * 0.001),
+                          child: Icon(
+                            Icons.label,
+                            color: Colors.white,
+                            size: width * 0.09,
+                          ),
                         ),
-                        Spacer(flex: 2),
                         Text(
                           'Edit labels',
                           style: TextStyle(
                               fontSize: width * 0.065
                           ),
                         ),
-                        Spacer(flex: 6),
+                        Spacer(flex: 2),
                       ],
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LabelListPage())),
@@ -73,22 +76,24 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Spacer(flex: 2),
-                        Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                          size: width * 0.09,
+                        Padding(
+                          padding: EdgeInsets.only(right: width * 0.001),
+                          child: Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                            size: width * 0.09,
+                          ),
                         ),
-                        Spacer(flex: 2),
                         Text(
                           'Settings',
                           style: TextStyle(
                               fontSize: width * 0.065
                           ),
                         ),
-                        Spacer(flex: 6),
+                        Spacer(flex: 2),
                       ],
                     ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage())),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage())),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.teal)
                     ),
@@ -108,19 +113,21 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Spacer(flex: 2),
-                    Icon(
-                      Icons.camera,
-                      color: Colors.white,
-                      size: width * 0.09,
+                    Padding(
+                      padding: EdgeInsets.only(right: width * 0.001),
+                      child: Icon(
+                        Icons.camera,
+                        color: Colors.white,
+                        size: width * 0.09,
+                      ),
                     ),
-                    Spacer(flex: 2),
                     Text(
                       'Take picture',
                       style: TextStyle(
                         fontSize: width * 0.07
                       ),
                     ),
-                    Spacer(flex: 6),
+                    Spacer(flex: 2),
                   ],
                 ),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage())),

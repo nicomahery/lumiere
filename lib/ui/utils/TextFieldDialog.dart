@@ -5,14 +5,14 @@ class TextFieldDialog extends StatelessWidget {
   String? _textFieldValue;
   final Function(String) confirmFunction;
   final Function cancelFunction;
-  final String title;
+  final Widget? title;
   final String inputHintText;
-  TextFieldDialog({required this.title, required this.inputHintText, required this.confirmFunction, required this.cancelFunction, Key? key}) : super(key: key);
+  TextFieldDialog({this.title, required this.inputHintText, required this.confirmFunction, required this.cancelFunction, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(this.title),
+      title: this.title,
       content: TextField(
         onChanged: (value) {
           this._textFieldValue = value;
@@ -29,7 +29,28 @@ class TextFieldDialog extends StatelessWidget {
         TextButton(
           child: Text('OK'),
           onPressed: () {
-            this.confirmFunction(this._textFieldValue!);
+            if (this._textFieldValue == null || this._textFieldValue!.length < 1) {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text("Error"),
+                    content: Text('Label name cannot be empty'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                              'OK'
+                          )
+                      )
+                    ]
+                  )
+              );
+            }
+            else {
+              this.confirmFunction(this._textFieldValue!);
+            }
           },
         ),
       ],

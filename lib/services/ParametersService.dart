@@ -25,7 +25,7 @@ class ParametersService {
   }
 
   /// Sets [this._serverUrl] and [this._accessKey] to the given [serverUrl] and [accessKey]
-  void _setServerUrlAndAccessKey(String? serverUrl, String? accessKey) {
+  void setServerUrlAndAccessKey(String? serverUrl, String? accessKey) {
     this._serverUrl = serverUrl;
     this._accessKey = accessKey;
     this._saveParametersFromPreferences();

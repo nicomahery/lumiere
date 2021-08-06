@@ -112,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
                 onPressed: (context) => showDialog(
                     context: context,
                     builder: (context) => TextFieldDialog(
-                        inputHintText: 'Server URL "www.example.com"',
+                        inputHintText: 'Server URL "example.com"',
                         cancelFunction: () => Navigator.pop(context),
                         confirmFunction: (String newUrl) {
                           this._apiUrl = newUrl;

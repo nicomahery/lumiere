@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/ui/LabelGalleryPage.dart';
 import 'package:lumiere/ui/utils/TextFieldDialog.dart';
 
 class LabelListPage extends StatefulWidget {
@@ -67,6 +68,7 @@ class _LabelListPageState extends State<LabelListPage> {
           return ListTile(
             leading: Icon(Icons.label, color: this._labelService.getColorsForLabelIndex(index)),
             title: Text(this._labelService.labelList[index]),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => LabelGalleryPage(selectedLabel: label))),
             trailing: IconButton(
               icon: Icon(Icons.delete),
               color: Colors.red,

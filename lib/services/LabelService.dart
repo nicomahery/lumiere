@@ -126,4 +126,14 @@ class LabelService{
   String getPathLocationForLabel(String label, String filename) {
     return path.Context(style: path.Style.posix).join(this._appDirectoryLocation, label, filename);
   }
+
+  /// Returns the list of files saved in the label named [label]
+  List<File> getFilesForLabel(String label) {
+    List<File> fileList = [];
+    Directory directory = new Directory(path.Context(style: path.Style.posix).join(this._appDirectoryLocation, label));
+    directory.listSync().forEach((FileSystemEntity entity) {
+      fileList.add(File(entity.path));
+    });
+    return fileList;
+  }
 }

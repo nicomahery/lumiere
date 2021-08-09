@@ -117,7 +117,13 @@ class LabelService{
     return LABEL_COLOR_LIST[index % LABEL_COLOR_LIST.length];
   }
 
-  void savePictureForLabel(File file, String label) {
-    file.renameSync(path.Context(style: path.Style.posix).join(this._appDirectoryLocation, label, path.basename(file.path)));
+  /// Returns associated colors for the label of [label]
+  Color getColorsForLabel(String label) {
+    return this.getColorsForLabelIndex(this._labelList.indexOf(label));
+  }
+
+  /// Return the path for the given [label] with the given [filename]
+  String getPathLocationForLabel(String label, String filename) {
+    return path.Context(style: path.Style.posix).join(this._appDirectoryLocation, label, filename);
   }
 }

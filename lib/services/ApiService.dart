@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/ParametersService.dart';
@@ -17,16 +18,22 @@ class ApiService {
     this._dio = Dio();
   }
 
-  Future<bool> sendFileToApi(File file, String label) async {
+  Future<bool> sendFileToApi(String label, {XFile? xFile, File? file}) async {
+    if ((xFile == null && file == null) || (xFile != null && file != null)) {
+      throw('one of xFile and File must be null and the other can\'t be null');
+    }
+    String filename = basename(file != null ? file.path : xFile!.path);
     Response response = await this._dio.post(
       'https://${this._parametersService.serverUrl!}/$UPLOAD_FILE_URI/$label',
       data: FormData.fromMap({
         'access-key': this._parametersService.accessKey ?? '',
-        'file': MultipartFile.fromBytes(file.readAsBytesSync(), filename: basename(file.path))
+        'file': MultipartFile.fromBytes(file != null ? file.readAsBytesSync() : await xFile!.readAsBytes(), filename: filename)
       })
     );
-    if (response.statusCode == 200 && response.data['fileName'] == basename(file.path)) {
-      file.deleteSync();
+    if (response.statusCode == 200 && response.data['fileName'] == filename) {
+      if (file != null) {
+        file.deleteSync();
+      }
       return true;
     }
     return false;

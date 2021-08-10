@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/ui/utils/FileImagePreviewWidget.dart';
 import 'package:lumiere/ui/utils/SelectLabelDialog.dart';
 import 'package:lumiere/ui/utils/StoragePictureDialog.dart';
-
-import 'XFilePreviewWidget.dart';
 
 class PicturePreviewDialog extends StatefulWidget {
   final XFile xFile;
@@ -50,7 +49,7 @@ class _PicturePreviewDialogState extends State<PicturePreviewDialog> {
             Container(
               height: height * 0.6,
               width: width * 0.65,
-              child: XFilePreviewWidget(this.widget.xFile)
+              child: FileImagePreviewWidget(xFile: this.widget.xFile)
             ),
             Spacer(flex: 1),
             Container(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +8,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/ApiService.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/ui/utils/FileImagePreviewWidget.dart';
 import 'package:path/path.dart';
 
-import 'XFilePreviewWidget.dart';
-
 class StoragePictureDialog extends StatefulWidget {
-  final XFile xFile;
+  final XFile? xFile;
+  final File? file;
   final String selectedLabel;
-  const StoragePictureDialog({required this.xFile, required this.selectedLabel, Key? key}) : super(key: key);
+  const StoragePictureDialog({this.xFile, this.file, required this.selectedLabel, Key? key}) : super(key: key);
 
   @override
   _StoragePictureDialogState createState() => _StoragePictureDialogState();
@@ -70,7 +72,7 @@ class _StoragePictureDialogState extends State<StoragePictureDialog> {
             Container(
                 height: height * 0.6,
                 width: width * 0.6,
-                child: XFilePreviewWidget(this.widget.xFile)
+                child: FileImagePreviewWidget(xFile: this.widget.xFile, file: this.widget.file)
             ),
             Spacer(flex: 1),
             Row(
@@ -84,7 +86,9 @@ class _StoragePictureDialogState extends State<StoragePictureDialog> {
                   child: ElevatedButton(
                       onPressed: () async {
                         EasyLoading.show(status: 'saving...');
-                        await this.widget.xFile.saveTo(this._labelService.getPathLocationForLabel(this.widget.selectedLabel, basename(this.widget.xFile.path)));
+                        if (this.widget.xFile != null) {
+                          await this.widget.xFile!.saveTo(this._labelService.getPathLocationForLabel(this.widget.selectedLabel, basename(this.widget.xFile!.path)));
+                        }
                         EasyLoading.dismiss();
                         Navigator.of(context).pop();
                       },
@@ -122,7 +126,7 @@ class _StoragePictureDialogState extends State<StoragePictureDialog> {
                   child: ElevatedButton(
                     onPressed: () async {
                       EasyLoading.show(status: 'sending...');
-                      if (await this._apiService.sendFileToApi(this.widget.selectedLabel, xFile: this.widget.xFile)) {
+                      if (await this._apiService.sendFileToApi(this.widget.selectedLabel, xFile: this.widget.xFile, file: this.widget.file)) {
                         Navigator.of(context).pop();
                       }
                       else {

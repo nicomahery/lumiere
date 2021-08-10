@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lumiere/services/LabelService.dart';
+import 'package:lumiere/ui/utils/StoragePictureDialog.dart';
 
 class LabelGalleryPage extends StatefulWidget {
   final String selectedLabel;
@@ -37,7 +38,20 @@ class _LabelGalleryPageState extends State<LabelGalleryPage> {
           ),
           itemCount: fileList.length,
           itemBuilder: (context, index) {
-            return Image.file(fileList[index]);
+            return GestureDetector(
+              child: Image.file(fileList[index]),
+              onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => StoragePictureDialog(
+                    file: fileList[index],
+                    selectedLabel: this.widget.selectedLabel,
+                  )
+              ).then((value) {
+                setState(() {
+
+                });
+              }),
+            );
           }),
     );
   }
